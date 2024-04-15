@@ -27,7 +27,43 @@ const createUser = async ({ username, passwordHash, email }) => {
   return newUser;
 };
 
+const getAllUsers = async () => {
+  try {
+    const query = "SELECT id, username, total_score FROM USERS ORDER BY total_score DESC"
+    const allUsers = await db.any(query)
+    return allUsers
+  } catch (error) {
+    console.error("Could not find users",error)
+    throw error
+  }
+}
+
+const getUser = async (id) => {
+  try {
+    const oneUser = await db.one('SELECT id, username, total_score FROM users WHERE id=$1', id)
+    return oneUser
+  } catch (error) {
+    return error
+  }
+};
+
+
+const updateUser = async (user,game) =>{
+  const newFinalScore = user.total_score + game.score
+  try {
+    const query = `UPDATE users SET username=$1, total_score=$2 WHERE id=$3 RETURNING *`;
+    const updatedUser = await db.one(query,[user.username,newFinalScore, user.id] )
+    return updatedUser
+  } catch (error) {
+    return error
+  }
+}
+
 module.exports = {
   findUserByUsername,
   createUser,
+  getAllUsers,
+  getUser,
+  updateUser
 };
+

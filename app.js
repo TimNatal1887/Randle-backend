@@ -5,6 +5,9 @@ const cron = require("node-cron");
 const cookieParser = require("cookie-parser");
 
 const authController = require("./controllers/authController");
+const playerController = require("./controllers/playerController");
+const userController = require("./controllers/userController")
+const gameController = require("./controllers/gameController")
 
 // CONFIGURATION
 const app = express();
@@ -22,12 +25,16 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     // origin: "https://main--jwt-auth-10-3.netlify.app/",
+    credentials:true
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authController);
+app.use("/api/players", playerController)
+app.use("/api/users", userController)
+app.use("/api/games", gameController)
 
 // ROUTES
 app.get("/", (_req, res) => {
