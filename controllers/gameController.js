@@ -45,7 +45,6 @@ games.get('/:id', async (req, res) => {
 });
 
 games.post('/', async (req,res) => {
-    // console.log(req.body)
     const {user_id, score, correct_answer} = req.body
     try {
         const newGame = await createGame(user_id, correct_answer, score)
