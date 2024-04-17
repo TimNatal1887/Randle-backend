@@ -1,6 +1,7 @@
 const express = require("express");
 const users = express.Router();
 const { getAllUsers, getUser, updateUser} = require("../queries/users");
+const { authenticateToken } = require("../middlewares/authenticateToken");
 
 
 // INDEX

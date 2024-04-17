@@ -1,6 +1,7 @@
 const express = require("express");
 const games = express.Router();
 const { getAllGames, getGame, createGame, updateGame } = require("../queries/game.js");
+const { authenticateToken } = require("../middlewares/authenticateToken");
 
 
 // INDEX
@@ -44,7 +45,7 @@ games.get('/:id', async (req, res) => {
   }
 });
 
-games.post('/', async (req,res) => {
+games.post('/', authenticateToken , async (req,res) => {
     const {user_id, score, correct_answer} = req.body
     try {
         const newGame = await createGame(user_id, correct_answer, score)
@@ -59,7 +60,7 @@ games.post('/', async (req,res) => {
     }
 })
 
-games.put('/:id', async (req,res) =>{
+games.put('/:id', authenticateToken, async (req,res) =>{
     const { id } = req.params    
     try {
         const updatedGame = await updateGame(id, req.body)
