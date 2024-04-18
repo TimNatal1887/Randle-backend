@@ -36,7 +36,7 @@ auth.post("/login", async (req, res) => {
 
 // Register route
 auth.post("/register", async (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, password, email, total_score } = req.body;
   try {
     // Check if user already exists
     const existingUser = await findUserByUsername(username);
@@ -53,6 +53,7 @@ auth.post("/register", async (req, res) => {
       username,
       passwordHash: hashedPassword,
       email,
+      total_score
     });
 
     const token = generateToken(newUser);
