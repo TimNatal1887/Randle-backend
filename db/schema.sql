@@ -36,7 +36,7 @@ CREATE TABLE games(
     id SERIAL PRIMARY KEY,
     correct_answer INT REFERENCES players(id),
     guesses_allowed INT DEFAULT 6,
-    user_id INT REFERENCES users(id), 
+    user_id INT REFERENCES users(id) ON DELETE CASCADE, 
     score INT
 );
 
